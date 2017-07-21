@@ -1148,6 +1148,17 @@ public final class Keys {
     public static final Key<Value<Boolean>> IS_AFLAME = KeyFactory.fake("IS_AFLAME");
 
     /**
+     * Represents the {@link Key} for whether a {@link Player} is currently
+     * flying with an elytra.
+     *
+     * <p>Offering this to a player will only work properly if they
+     * are currently wearing an elytra.</p>
+     *
+     * @see ElytraFlyingData#elytraFlying()
+     */
+    public static final Key<Value<Boolean>> IS_ELYTRA_FLYING = KeyFactory.fake("IS_ELTRY_FLYING");
+
+    /**
      * Represents the {@link Key} for whether an {@link Entity} is flying.
      *
      * <p>This key only tells whether an entity is flying at the moment. On a

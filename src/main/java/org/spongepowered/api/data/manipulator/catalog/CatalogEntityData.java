@@ -166,6 +166,12 @@ public final class CatalogEntityData {
      * Usually applies to {@link Sheep}.
      */
     public static final Class<DyeableData> DYEABLE_DATA = DyeableData.class;
+
+    /**
+     * Represents the state of a {@link Player} flying using an elytra.
+     */
+    public static final Class<ElytraFlyingData> ELYTRA_FLYING_DATA = ElytraFlyingData.class;
+
     /**
      * Signifies that an entity can hold "experience". Usually applies to
      * {@link Player}s.
