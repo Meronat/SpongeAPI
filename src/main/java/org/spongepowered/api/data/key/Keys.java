@@ -82,6 +82,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.Axis;
 import org.spongepowered.api.util.Color;
 import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.util.ElytraCapability;
 import org.spongepowered.api.util.RespawnLocation;
 import org.spongepowered.api.util.rotation.Rotation;
 import org.spongepowered.api.util.weighted.WeightedSerializableObject;
@@ -686,6 +687,14 @@ public final class Keys {
     public static final Key<Value<DyeColor>> DYE_COLOR = KeyFactory.fake("DYE_COLOR");
 
     /**
+     * Represents the ability of a {@link Player} to utilize elytra style
+     * flying being either disabled, enabled, or requiring an elytra.
+     *
+     * @see ElytraFlyingData#elytraCapability()
+     */
+    public static final Key<Value<ElytraCapability>> ELYTRA_CAPABILITY = KeyFactory.fake("ELYTRA_CAPABILITY");
+
+    /**
      * Represents the {@link Key} for representing the age of
      * an {@link EndGateway}.
      *
@@ -1156,7 +1165,7 @@ public final class Keys {
      *
      * @see ElytraFlyingData#elytraFlying()
      */
-    public static final Key<Value<Boolean>> IS_ELYTRA_FLYING = KeyFactory.fake("IS_ELTRY_FLYING");
+    public static final Key<Value<Boolean>> IS_ELYTRA_FLYING = KeyFactory.fake("IS_ELYTRA_FLYING");
 
     /**
      * Represents the {@link Key} for whether an {@link Entity} is flying.

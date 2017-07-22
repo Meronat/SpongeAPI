@@ -139,6 +139,10 @@ public class TypeTokens {
 
     public static final TypeToken<Value<DyeColor>> DYE_COLOR_VALUE_TOKEN = new TypeToken<Value<DyeColor>>() {private static final long serialVersionUID = -1;};
 
+    public static final TypeToken<ElytraCapability> ELYTRA_CAPABILITY_TOKEN = new TypeToken<ElytraCapability>() {private static final long serialVersionUID = -1;};
+
+    public static final TypeToken<Value<ElytraCapability>> ELYTRA_CAPABILITY_VALUE_TOKEN = new TypeToken<Value<ElytraCapability>>() {private static final long serialVersionUID = -1;};
+
     public static final TypeToken<EntitySnapshot> ENTITY_TOKEN = new TypeToken<EntitySnapshot>() {private static final long serialVersionUID = -1;};
 
     public static final TypeToken<Map<EntityType, Double>> ENTITY_TYPE_DOUBLE_MAP_TOKEN = new TypeToken<Map<EntityType, Double>>() {private static final long serialVersionUID = -1;};

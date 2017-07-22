@@ -22,37 +22,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.api.data.manipulator.mutable.entity;
+package org.spongepowered.api.data.property.item;
 
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.manipulator.DataManipulator;
-import org.spongepowered.api.data.manipulator.immutable.entity.ImmutableElytraFlyingData;
-import org.spongepowered.api.data.value.mutable.Value;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.util.ElytraCapability;
+import org.spongepowered.api.data.property.BooleanProperty;
 
 /**
- * A {@link DataManipulator} for manipulating a living entity,
- * generally a {@link Player}'s ability to fly with an elytra.
+ * Represents the property which shows whether or not an item works
+ * as an elytra for flying.
  */
-public interface ElytraFlyingData extends DataManipulator<ElytraFlyingData, ImmutableElytraFlyingData> {
+public class ElytraFlyingProperty extends BooleanProperty {
 
     /**
-     * Gets the {@link Value} for the elytra flying
-     * capabilities of a player.
+     * Creates a new {@link ElytraFlyingProperty} with the provided {@code value}.
      *
-     * @return The value for the player's elytra capabilities.
-     * @see Keys#ELYTRA_CAPABILITY
+     * @param value The value
      */
-    Value<ElytraCapability> elytraCapability();
+    public ElytraFlyingProperty(boolean value) {
+        super(value);
+    }
 
     /**
-     * Gets the {@link Value} for if the player is flying
-     * with an elytra.
+     * Creates a new {@link ElytraFlyingProperty} with the provided {@code value}
+     * and {@link Operator} comparison operator.
      *
-     * @return The value for the elytra flying state
-     * @see Keys#IS_ELYTRA_FLYING
+     * @param value The value
+     * @param operator The operator for comparisons
      */
-    Value<Boolean> elytraFlying();
+    public ElytraFlyingProperty(boolean value, Operator operator) {
+        super(value, operator);
+    }
 
 }

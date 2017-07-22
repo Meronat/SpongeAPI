@@ -28,17 +28,26 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.data.manipulator.mutable.entity.ElytraFlyingData;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
-import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.util.ElytraCapability;
 
 /**
- * An {@link ImmutableDataManipulator} for a {@link Player} flying
- * using an elytra.
+ * An {@link ImmutableDataManipulator} for manipulating a living entity,
+ * generally a {@link Player}'s ability to fly with an elytra.
  */
 public interface ImmutableElytraFlyingData extends ImmutableDataManipulator<ImmutableElytraFlyingData, ElytraFlyingData> {
 
     /**
-     * Gets the {@link Value} for if the player is flying
+     * Gets the {@link ImmutableValue} for the elytra flying
+     * capabilities of a player.
+     *
+     * @return The value for the player's elytra capabilities.
+     * @see Keys#ELYTRA_CAPABILITY
+     */
+    ImmutableValue<ElytraCapability> elytraCapability();
+
+    /**
+     * Gets the {@link ImmutableValue} for if the player is flying
      * with an elytra.
      *
      * @return The value for the elytra flying state

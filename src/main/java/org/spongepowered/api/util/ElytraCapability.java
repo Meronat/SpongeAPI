@@ -22,37 +22,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.spongepowered.api.data.manipulator.mutable.entity;
+package org.spongepowered.api.util;
 
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.manipulator.DataManipulator;
-import org.spongepowered.api.data.manipulator.immutable.entity.ImmutableElytraFlyingData;
-import org.spongepowered.api.data.value.mutable.Value;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.util.ElytraCapability;
+public enum ElytraCapability {
 
-/**
- * A {@link DataManipulator} for manipulating a living entity,
- * generally a {@link Player}'s ability to fly with an elytra.
- */
-public interface ElytraFlyingData extends DataManipulator<ElytraFlyingData, ImmutableElytraFlyingData> {
+    EQUIPMENT,
 
-    /**
-     * Gets the {@link Value} for the elytra flying
-     * capabilities of a player.
-     *
-     * @return The value for the player's elytra capabilities.
-     * @see Keys#ELYTRA_CAPABILITY
-     */
-    Value<ElytraCapability> elytraCapability();
+    ENABLED,
 
-    /**
-     * Gets the {@link Value} for if the player is flying
-     * with an elytra.
-     *
-     * @return The value for the elytra flying state
-     * @see Keys#IS_ELYTRA_FLYING
-     */
-    Value<Boolean> elytraFlying();
+    DISABLED
 
 }
