@@ -627,6 +627,15 @@ public final class Keys {
     public static final Key<Value<DirtType>> DIRT_TYPE = KeyFactory.fake("DIRT_TYPE");
 
     /**
+     * Represents the {@link Key} which represents the equipment
+     * slots(and hand slot) on an armor stand that have disabled removing,
+     * replacing, or placing.
+     *
+     * @see ArmorStandData#disabledSlotTypes()
+     */
+    public static final Key<SetValue<DisabledSlotType>> DISABLED_SLOT_TYPES = KeyFactory.fake("DISABLED_SLOT_TYPES");
+
+    /**
      * Represents the {@link Key} for representing the "disarmed" state
      * of a {@link BlockState}. This usually applies to
      * {@link BlockTypes#TRIPWIRE}s and {@link BlockTypes#TRIPWIRE_HOOK}s.

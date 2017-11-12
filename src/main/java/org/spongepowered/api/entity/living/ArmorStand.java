@@ -27,6 +27,8 @@ package org.spongepowered.api.entity.living;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.ArmorStandData;
 import org.spongepowered.api.data.manipulator.mutable.entity.BodyPartRotationalData;
+import org.spongepowered.api.data.type.DisabledSlotType;
+import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.ArmorEquipable;
 
@@ -87,6 +89,16 @@ public interface ArmorStand extends Living, ArmorEquipable {
      */
     default Value<Boolean> arms() {
         return getValue(Keys.ARMOR_STAND_HAS_ARMS).get();
+    }
+
+    /**
+     * Gets the {@link SetValue} for the disabled slot types this
+     * {@link ArmorStand} has.
+     *
+     * @return The disabled slot types of this armor stand
+     */
+    default SetValue<DisabledSlotType> disabledSlotTypes() {
+        return getValue(Keys.DISABLED_SLOT_TYPES).get();
     }
 
     /**

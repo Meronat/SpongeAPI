@@ -27,6 +27,8 @@ package org.spongepowered.api.data.manipulator.mutable.entity;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.DataManipulator;
 import org.spongepowered.api.data.manipulator.immutable.entity.ImmutableArmorStandData;
+import org.spongepowered.api.data.type.DisabledSlotType;
+import org.spongepowered.api.data.value.mutable.SetValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
 public interface ArmorStandData extends DataManipulator<ArmorStandData, ImmutableArmorStandData> {
@@ -66,5 +68,14 @@ public interface ArmorStandData extends DataManipulator<ArmorStandData, Immutabl
      * @see Keys#ARMOR_STAND_HAS_BASE_PLATE
      */
     Value<Boolean> basePlate();
+
+    /**
+     * Gets the {@link SetValue} of all of this armor
+     * stand's {@link DisabledSlotType}s.
+     *
+     * @return This armor stand's disabled slot types
+     * @see Keys#DISABLED_SLOT_TYPES
+     */
+    SetValue<DisabledSlotType> disabledSlotTypes();
 
 }

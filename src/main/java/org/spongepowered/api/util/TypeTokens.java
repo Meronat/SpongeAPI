@@ -123,6 +123,10 @@ public class TypeTokens {
 
     public static final TypeToken<Value<DirtType>> DIRT_VALUE_TOKEN = new TypeToken<Value<DirtType>>() {private static final long serialVersionUID = -1;};
 
+    public static final TypeToken<Set<DisabledSlotType>> SET_DISABLED_SLOT_TYPE_TOKEN = new TypeToken<Set<DisabledSlotType>>() {private static final long serialVersionUID = -1;};
+
+    public static final TypeToken<SetValue<DisabledSlotType>> SET_DISABLED_SLOT_TYPE_VALUE_TOKEN = new TypeToken<SetValue<DisabledSlotType>>() {private static final long serialVersionUID = -1;};
+
     public static final TypeToken<DisguisedBlockType> DISGUISED_BLOCK_TOKEN = new TypeToken<DisguisedBlockType>() {private static final long serialVersionUID = -1;};
 
     public static final TypeToken<Value<DisguisedBlockType>> DISGUISED_BLOCK_VALUE_TOKEN = new TypeToken<Value<DisguisedBlockType>>() {private static final long serialVersionUID = -1;};
