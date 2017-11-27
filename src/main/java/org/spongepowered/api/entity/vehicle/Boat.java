@@ -24,12 +24,15 @@
  */
 package org.spongepowered.api.entity.vehicle;
 
+import org.spongepowered.api.data.manipulator.mutable.entity.BoatData;
 import org.spongepowered.api.entity.Entity;
 
 /**
  * Represents a Boat entity.
  */
 public interface Boat extends Entity {
+
+    BoatData getBoatData();
 
     /**
      * Gets whether this boat is currently in water.

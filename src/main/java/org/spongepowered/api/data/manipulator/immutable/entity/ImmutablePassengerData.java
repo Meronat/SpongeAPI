@@ -28,6 +28,7 @@ import org.spongepowered.api.data.manipulator.ImmutableDataManipulator;
 import org.spongepowered.api.data.manipulator.immutable.ImmutableListData;
 import org.spongepowered.api.data.manipulator.mutable.entity.PassengerData;
 import org.spongepowered.api.data.value.immutable.ImmutableListValue;
+import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.entity.Entity;
 
 import java.util.UUID;
@@ -46,5 +47,7 @@ public interface ImmutablePassengerData extends ImmutableListData<UUID, Immutabl
      * @return The immutable value for the passenger entity
      */
     ImmutableListValue<UUID> passengers();
+
+    ImmutableValue<UUID> controllingPassenger();
 
 }

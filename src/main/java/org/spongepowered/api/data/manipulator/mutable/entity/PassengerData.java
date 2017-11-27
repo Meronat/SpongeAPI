@@ -47,4 +47,6 @@ public interface PassengerData extends ListData<UUID, PassengerData, ImmutablePa
      */
     ListValue<UUID> passengers();
 
+    Value<UUID> controllingPassenger();
+
 }
