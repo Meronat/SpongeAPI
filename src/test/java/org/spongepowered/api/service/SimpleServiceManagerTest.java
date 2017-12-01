@@ -24,13 +24,13 @@
  */
 package org.spongepowered.api.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.event.CauseStackManager;
 import org.spongepowered.api.event.EventManager;
@@ -48,7 +48,7 @@ public class SimpleServiceManagerTest {
     private Object testPlugin = new Object();
     private PluginContainer testPluginContainer;
 
-    @Before
+    @BeforeEach
     public void mockEventManager() throws Exception {
         this.manager = mock(PluginManager.class);
         this.testPluginContainer = mock(PluginContainer.class);

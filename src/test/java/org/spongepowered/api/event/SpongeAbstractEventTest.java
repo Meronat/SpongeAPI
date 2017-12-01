@@ -24,14 +24,13 @@
  */
 package org.spongepowered.api.event;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.collect.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.DataTransactionResult;
@@ -56,7 +55,7 @@ public class SpongeAbstractEventTest {
         ChangeBlockEvent.Break event = SpongeEventFactory.createChangeBlockEventBreak(Cause.of(EventContext.empty(), "none"), Lists.newArrayList(transaction));
         event.filter(location -> false);
 
-        assertThat(transaction.isValid(), is(false));
+        assertFalse(transaction.isValid());
     }
 
     @Test
@@ -67,10 +66,10 @@ public class SpongeAbstractEventTest {
         ChangeDataHolderEvent.ValueChange event = SpongeEventFactory.createChangeDataHolderEventValueChange(Cause.of(EventContext.empty(), "none"), original,
             mockParam(DataHolder.class));
 
-        assertThat(event.getOriginalChanges(), is(equalTo(original)));
+        assertEquals(event.getOriginalChanges(), original);
 
         event.proposeChanges(modified);
-        assertThat(event.getEndResult(), is(equalTo(modified)));
+        assertEquals(event.getEndResult(), modified);
     }
 
     @SuppressWarnings("unchecked")

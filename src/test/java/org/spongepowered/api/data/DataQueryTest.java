@@ -24,11 +24,11 @@
  */
 package org.spongepowered.api.data;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +53,12 @@ public class DataQueryTest {
         DataQuery second = DataQuery.of(',', "this,test,equals");
         DataQuery complex = DataQuery.of('\u8482', "this\u8482test\u8482equals");
         DataQuery test = DataQuery.of("this", "test", "equals");
-        assertThat(first.equals(test), is(true));
-        assertThat(first.equals(second), is(true));
-        assertThat(first.equals(complex), is(true));
-        assertThat(second.equals(complex), is(true));
-        assertThat(second.equals(first), is(true));
-        assertThat(second.equals(test), is(true));
+        assertTrue(first.equals(test));
+        assertTrue(first.equals(second));
+        assertTrue(first.equals(complex));
+        assertTrue(second.equals(complex));
+        assertTrue(second.equals(first));
+        assertTrue(second.equals(test));
     }
 
     /**
@@ -68,8 +68,8 @@ public class DataQueryTest {
     public void testOfParts() {
         DataQuery first = DataQuery.of("this", "parts", "equal");
         DataQuery second = DataQuery.of('.', "this.parts.equal");
-        assertThat(first.equals(second), is(true));
-        assertThat(second.equals(first), is(true));
+        assertTrue(first.equals(second));
+        assertTrue(second.equals(first));
     }
 
     /**
@@ -82,7 +82,7 @@ public class DataQueryTest {
         parts.add("this");
         parts.add("parts");
         parts.add("test");
-        assertThat(query.getParts().equals(parts), is(true));
+        assertTrue(query.getParts().equals(parts));
     }
 
     /**
@@ -93,8 +93,8 @@ public class DataQueryTest {
         final DataQuery query = DataQuery.of("this", "testing");
         final DataQuery other = DataQuery.of("this");
         final DataQuery test = other.then(DataQuery.of("testing"));
-        assertThat(query.equals(test), is(true));
-        assertThat(test.equals(query), is(true));
+        assertTrue(query.equals(test));
+        assertTrue(test.equals(query));
     }
 
     /**
@@ -108,10 +108,10 @@ public class DataQueryTest {
         final DataQuery part3 = DataQuery.of("query");
         final List<DataQuery> parts = full.getQueryParts();
         final List<DataQuery> built = ImmutableList.of(part1, part2, part3);
-        assertThat(parts.equals(built), is(true));
-        assertThat(built.equals(parts), is(true));
-        assertThat(built.containsAll(parts), is(true));
-        assertThat(parts.containsAll(built), is(true));
+        assertTrue(parts.equals(built));
+        assertTrue(built.equals(parts));
+        assertTrue(built.containsAll(parts));
+        assertTrue(parts.containsAll(built));
     }
 
     /**
@@ -121,13 +121,13 @@ public class DataQueryTest {
     public void testPop() {
         DataQuery prePopped = DataQuery.of("this", "test", "query");
         DataQuery expected = DataQuery.of("this", "test");
-        assertThat(prePopped.pop().equals(expected), is(true));
+        assertTrue(prePopped.pop().equals(expected));
         DataQuery empty = DataQuery.of();
         DataQuery emptyPopped = empty.pop();
-        assertThat(emptyPopped.equals(empty), is(true));
+        assertTrue(emptyPopped.equals(empty));
 
         DataQuery single = DataQuery.of("single");
-        assertThat(single.pop().equals(empty), is(true));
+        assertTrue(single.pop().equals(empty));
     }
 
     /**
@@ -137,8 +137,8 @@ public class DataQueryTest {
     public void testLast() {
         final DataQuery full = DataQuery.of("first", "test");
         final DataQuery lastExpected = DataQuery.of("test");
-        assertThat(full.last().equals(lastExpected), is(true));
-        assertThat(lastExpected.equals(full.last()), is(true));
+        assertTrue(full.last().equals(lastExpected));
+        assertTrue(lastExpected.equals(full.last()));
     }
 
     /**
@@ -149,9 +149,9 @@ public class DataQueryTest {
         DataQuery query1 = DataQuery.of("test");
         DataQuery query2 = DataQuery.of("test");
         DataQuery nonEqual = DataQuery.of("nope");
-        assertThat(query1.equals(query1), is(true));
-        assertThat(query1.equals(query2), is(true));
-        assertThat(query1.equals(nonEqual), is(false));
+        assertTrue(query1.equals(query1));
+        assertTrue(query1.equals(query2));
+        assertFalse(query1.equals(nonEqual));
     }
 
 }

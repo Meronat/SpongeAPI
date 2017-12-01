@@ -24,9 +24,10 @@
  */
 package org.spongepowered.api.event;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.ai.Goal;
@@ -48,24 +49,28 @@ public class SpongeAITaskEventTest {
         SpongeEventFactory.createAITaskEventRemove(Cause.of(EventContext.empty(), mock(Game.class)), goal, targetEntity, mock(AITask.class), 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAITaskEventAdd_invalidTargetAgentAndGoalOwner() {
-        Agent targetEntity = mock(Agent.class);
-        Agent secondEntity = mock(Agent.class);
-        Goal goal = mock(Goal.class);
-        Mockito.when(goal.getOwner()).thenReturn(secondEntity);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Agent targetEntity = mock(Agent.class);
+            Agent secondEntity = mock(Agent.class);
+            Goal goal = mock(Goal.class);
+            Mockito.when(goal.getOwner()).thenReturn(secondEntity);
 
-        SpongeEventFactory.createAITaskEventAdd(Cause.of(EventContext.empty(), mock(Game.class)), 0, 0, goal, targetEntity, mock(AITask.class));
+            SpongeEventFactory.createAITaskEventAdd(Cause.of(EventContext.empty(), mock(Game.class)), 0, 0, goal, targetEntity, mock(AITask.class));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAITaskEventRemove_invalidTargetAgentAndGoalOwner() {
-        Agent targetEntity = mock(Agent.class);
-        Agent secondEntity = mock(Agent.class);
-        Goal goal = mock(Goal.class);
-        Mockito.when(goal.getOwner()).thenReturn(secondEntity);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Agent targetEntity = mock(Agent.class);
+            Agent secondEntity = mock(Agent.class);
+            Goal goal = mock(Goal.class);
+            Mockito.when(goal.getOwner()).thenReturn(secondEntity);
 
-        SpongeEventFactory.createAITaskEventRemove(Cause.of(EventContext.empty(), mock(Game.class)), goal, targetEntity, mock(AITask.class), 0);
+            SpongeEventFactory.createAITaskEventRemove(Cause.of(EventContext.empty(), mock(Game.class)), goal, targetEntity, mock(AITask.class), 0);
+        });
     }
 
 }

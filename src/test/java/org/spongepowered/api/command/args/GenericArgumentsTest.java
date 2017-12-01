@@ -24,8 +24,9 @@
  */
 package org.spongepowered.api.command.args;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.spongepowered.api.command.args.GenericArguments.allOf;
 import static org.spongepowered.api.command.args.GenericArguments.bool;
 import static org.spongepowered.api.command.args.GenericArguments.choices;
@@ -43,10 +44,8 @@ import static org.spongepowered.api.command.args.GenericArguments.string;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -56,21 +55,15 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.TestPlainTextSerializer;
 import org.spongepowered.api.text.Text;
 
-
 /**
  * Tests for all argument types contained in GenericArguments.
  */
 public class GenericArgumentsTest {
 
     private static final CommandSource MOCK_SOURCE = Mockito.mock(CommandSource.class);
-    static final CommandExecutor NULL_EXECUTOR = new CommandExecutor() {
-        @Override
-        public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-            return CommandResult.empty();
-        }
-    };
+    static final CommandExecutor NULL_EXECUTOR = (src, args) -> CommandResult.empty();
 
-    @Before
+    @BeforeEach
     public void initialize() throws Exception {
         TestPlainTextSerializer.inject();
     }
@@ -78,9 +71,6 @@ public class GenericArgumentsTest {
     private static Text untr(String string) {
         return Text.of(string);
     }
-
-    @Rule
-    public ExpectedException expected = ExpectedException.none();
 
     private static CommandContext parseForInput(String input, CommandElement element) throws ArgumentParseException {
         CommandSpec spec = CommandSpec.builder()
@@ -93,9 +83,9 @@ public class GenericArgumentsTest {
         return context;
     }
 
-    @Test(expected = CommandException.class)
-    public void testNone() throws ArgumentParseException {
-        parseForInput("a", none());
+    @Test()
+    public void testNone() {
+        assertThrows(CommandException.class, () -> parseForInput("a", none()));
     }
 
     @Test
@@ -106,8 +96,7 @@ public class GenericArgumentsTest {
         assertEquals("b", context.getOne("two").get());
         assertEquals("c", context.getOne("three").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("a b", el);
+        assertThrows(ArgumentParseException.class, () -> parseForInput("a b", el));
     }
 
     @Test
@@ -116,8 +105,7 @@ public class GenericArgumentsTest {
         CommandContext context = parseForInput("a", el);
         assertEquals("one", context.getOne("val").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("c", el);
+        assertThrows(ArgumentParseException.class, () -> parseForInput("c", el));
     }
 
     @Test
@@ -144,9 +132,7 @@ public class GenericArgumentsTest {
         context = parseForInput("hello", el);
         assertEquals("hello", context.getOne("str").get());
 
-        el = seq(optional(integer(untr("val")), string(untr("str"))));
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("hello", el);
+        assertThrows(ArgumentParseException.class, () -> parseForInput("hello", seq(optional(integer(untr("val")), string(untr("str"))))));
     }
 
     @Test
@@ -176,8 +162,7 @@ public class GenericArgumentsTest {
         assertEquals(0xdead, parseForInput("0xdead", el).getOne("a value").get());
         assertEquals(0b101010, parseForInput("0b101010", el).getOne("a value").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("notanumber", integer(untr("a value")));
+        assertThrows(ArgumentParseException.class, () -> parseForInput("notanumber", integer(untr("a value"))));
     }
 
     @Test
@@ -185,8 +170,7 @@ public class GenericArgumentsTest {
         CommandContext context = parseForInput("524903294023901", longNum(untr("a value")));
         assertEquals(524903294023901L, context.getOne("a value").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("notanumber", integer(untr("a value")));
+        assertThrows(ArgumentParseException.class, () -> parseForInput("notanumber", integer(untr("a value"))));
     }
 
     @Test
@@ -196,8 +180,7 @@ public class GenericArgumentsTest {
         assertEquals(true, parseForInput("t", boolEl).getOne("val").get());
         assertEquals(false, parseForInput("f", boolEl).getOne("val").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("notabool", boolEl);
+        assertThrows(ArgumentParseException.class, () -> parseForInput("notabool", boolEl));
     }
 
     private enum TestEnum {
@@ -211,8 +194,7 @@ public class GenericArgumentsTest {
         assertEquals(TestEnum.TWO, parseForInput("TwO", enumEl).getOne("val").get());
         assertEquals(TestEnum.RED, parseForInput("RED", enumEl).getOne("val").get());
 
-        this.expected.expect(ArgumentParseException.class);
-        parseForInput("notanel", enumEl);
+        assertThrows(ArgumentParseException.class, () -> parseForInput("notanel", enumEl));
     }
 
     @Test

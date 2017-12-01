@@ -24,8 +24,9 @@
  */
 package org.spongepowered.api.util.weighted;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class TestWeightedTable {
         table.add(new WeightedObject<Object>(this, 4));
         rand.enqueue(0);
         List<Object> results = table.get(rand);
-        Assert.assertEquals(this, results.get(0));
+        assertEquals(this, results.get(0));
     }
 
 }

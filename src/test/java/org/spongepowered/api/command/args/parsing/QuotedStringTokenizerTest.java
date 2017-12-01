@@ -24,15 +24,14 @@
  */
 package org.spongepowered.api.command.args.parsing;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.command.args.ArgumentParseException;
 import org.spongepowered.api.text.TestPlainTextSerializer;
 
@@ -53,10 +52,7 @@ public class QuotedStringTokenizerTest {
         });
     }
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void initialize() throws Exception {
         TestPlainTextSerializer.inject();
     }
@@ -92,9 +88,8 @@ public class QuotedStringTokenizerTest {
 
     @Test
     public void testUnterminatedQuote() throws ArgumentParseException {
-        this.expectedException.expect(ArgumentParseException.class);
-        this.expectedException.expectMessage("Unterminated quoted string");
-        parseFrom("an \"unterminated quoted string is bad");
+        final ArgumentParseException ex = assertThrows(ArgumentParseException.class, () -> parseFrom("an \"unterminated quoted string is bad"));
+        assertEquals("Unterminated quoted string", ex.getMessage());
     }
 
     @Test

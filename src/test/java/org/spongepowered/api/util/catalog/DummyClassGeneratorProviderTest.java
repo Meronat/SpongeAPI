@@ -24,7 +24,9 @@
  */
 package org.spongepowered.api.util.catalog;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.util.generator.dummy.DummyClassGeneratorProvider;
 
 import java.io.IOException;
@@ -36,33 +38,39 @@ public class DummyClassGeneratorProviderTest {
         return new DummyClassGeneratorProvider("org.spongepowered.test.dummy");
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreate_Simple()
             throws IOException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        DummyClassGeneratorProvider provider = this.createProvider();
-        SimpleInterface result = provider.create(SimpleInterface.class,
-                UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            DummyClassGeneratorProvider provider = this.createProvider();
+            SimpleInterface result = provider.create(SimpleInterface.class,
+                    UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
 
-        result.foo();
+            result.foo();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreate_SubInterface() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        DummyClassGeneratorProvider provider = this.createProvider();
-        SubInterface result = provider.create(SubInterface.class,
-                UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            DummyClassGeneratorProvider provider = this.createProvider();
+            SubInterface result = provider.create(SubInterface.class,
+                    UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
 
-        result.blah();
+            result.blah();
+        });
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreate_SubInterfaceSubMethod()
             throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        DummyClassGeneratorProvider provider = this.createProvider();
-        SubInterface result = provider.create(SubInterface.class,
-                UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
+        assertThrows(UnsupportedOperationException.class, () -> {
+            DummyClassGeneratorProvider provider = this.createProvider();
+            SubInterface result = provider.create(SubInterface.class,
+                    UnsupportedOperationException.class).getConstructor(String.class).newInstance("BLAH");
 
-        result.test();
+            result.test();
+        });
     }
 
     public interface SimpleInterface {

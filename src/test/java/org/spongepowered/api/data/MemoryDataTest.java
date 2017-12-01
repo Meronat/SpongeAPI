@@ -24,7 +24,7 @@
  */
 package org.spongepowered.api.data;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.spongepowered.api.data.DataQuery.of;
@@ -34,7 +34,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.spongepowered.api.data.persistence.DataBuilder;
 import org.spongepowered.api.util.test.TestHooks;

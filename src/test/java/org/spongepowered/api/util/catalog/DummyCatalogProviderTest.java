@@ -24,15 +24,17 @@
  */
 package org.spongepowered.api.util.catalog;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.util.generator.dummy.DummyObjectProvider;
 
 public class DummyCatalogProviderTest {
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCreate_BlockType() {
-        DummyObjectProvider.createFor(BlockType.class, "FOO").getDefaultState();
+        assertThrows(UnsupportedOperationException.class, () -> DummyObjectProvider.createFor(BlockType.class, "FOO").getDefaultState());
     }
 
 }

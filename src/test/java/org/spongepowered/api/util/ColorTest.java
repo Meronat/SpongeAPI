@@ -24,12 +24,15 @@
  */
 package org.spongepowered.api.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3f;
 import com.flowpowered.math.vector.Vector3i;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.data.DataContainer;
 
 public class ColorTest {
@@ -37,52 +40,52 @@ public class ColorTest {
     @Test
     public void testOfRgbHex() {
         final Color colorGray = Color.ofRgb(0x808080);
-        assertTrue(Color.GRAY.equals(colorGray));
+        assertEquals(Color.GRAY, colorGray);
     }
 
     @Test
     public void testOfRgbForRedGreenBlue() {
         final Color colorGray = Color.ofRgb(128, 128, 128);
-        assertTrue(Color.GRAY.equals(colorGray));
+        assertEquals(Color.GRAY, colorGray);
     }
 
     @Test
     public void testOfColor() {
         final Color blueColor = Color.of(java.awt.Color.BLUE);
-        assertTrue(blueColor.equals(Color.BLUE));
+        assertEquals(Color.BLUE, blueColor);
     }
 
     @Test
     public void testOfVector3i() {
         final Vector3i vecGray = new Vector3i(128, 128, 384);
         final Color colorGray = Color.of(vecGray);
-        assertTrue(Color.GRAY.equals(colorGray));
+        assertEquals(Color.GRAY, colorGray);
     }
 
     @Test
     public void testOfVector3f() {
         final Vector3f vecGray = new Vector3f(128.0, 128.459, 127.5);
         final Color colorGray = Color.of(vecGray);
-        assertTrue(Color.GRAY.equals(colorGray));
+        assertEquals(Color.GRAY, colorGray);
     }
 
     @Test
     public void testOfVector3d() {
         final Vector3d vecGray = new Vector3d(128.0, 128.459, 127.5);
         final Color colorGray = Color.of(vecGray);
-        assertTrue(Color.GRAY.equals(colorGray));
+        assertEquals(Color.GRAY, colorGray);
     }
 
     @Test
     public void testMixColors() {
         final Color grey = Color.GRAY;
         final Color test = Color.WHITE.mixWithColors(Color.BLACK);
-        assertTrue(grey.equals(test));
+        assertEquals(grey, test);
     }
 
     @Test
     public void testGetRed() {
-        assertTrue(0xFF == Color.RED.getRed());
+        assertSame(0xFF, Color.RED.getRed());
     }
 
     @Test
@@ -90,12 +93,12 @@ public class ColorTest {
         final Color cyan = Color.CYAN;
         final Color merged = cyan.withRed(0xFF);
         final int rgb = merged.getRgb();
-        assertTrue(0xFFFFFF == rgb);
+        assertSame(0xFFFFFF, rgb);
     }
 
     @Test
     public void testGetGreen() {
-        assertTrue(0x80 == Color.GREEN.getGreen());
+        assertSame(0x80, Color.GREEN.getGreen());
     }
 
     @Test
@@ -103,12 +106,12 @@ public class ColorTest {
         final Color magenta = Color.MAGENTA;
         final Color merged = magenta.withGreen(0xFF);
         final int rgb = merged.getRgb();
-        assertTrue(0xFFFFFF == rgb);
+        assertSame(0xFFFFFF, rgb);
     }
 
     @Test
     public void testGetBlue() {
-        assertTrue(0xFF == Color.BLUE.getBlue());
+        assertSame(0xFF, Color.BLUE.getBlue());
     }
 
     @Test
@@ -116,7 +119,7 @@ public class ColorTest {
         final Color yellow = Color.YELLOW;
         final Color merged = yellow.withBlue(0xFF);
         final int rgb = merged.getRgb();
-        assertTrue(0xFFFFFF == rgb);
+        assertSame(0xFFFFFF, rgb);
     }
 
     @Test
@@ -125,7 +128,7 @@ public class ColorTest {
         final Color apiColor = Color.ofRgb(color);
         final java.awt.Color javaColor = apiColor.asJavaColor();
         final java.awt.Color testColor = new java.awt.Color(color);
-        assertTrue(javaColor.equals(testColor));
+        assertEquals(javaColor, testColor);
     }
 
     @Test
@@ -133,7 +136,7 @@ public class ColorTest {
         final int color = 0x808080;
         final Color color1 = Color.ofRgb(color);
         final int rgb = color1.getRgb();
-        assertTrue(color == rgb);
+        assertSame(color, rgb);
     }
 
     @Test
@@ -142,13 +145,13 @@ public class ColorTest {
         final Color.Builder builder = new Color.Builder();
         final DataContainer container = colorGray.toContainer();
         final Color deserialized = builder.build(container).get();
-        assertTrue(colorGray.equals(deserialized));
+        assertEquals(colorGray, deserialized);
     }
 
     @Test
     public void testEquals() {
-        assertTrue(Color.GREEN.equals(Color.ofRgb(0x008000)));
-        assertTrue(!Color.GREEN.equals(Color.GRAY));
+        assertEquals(Color.GREEN, Color.ofRgb(0x008000));
+        assertNotEquals(Color.GREEN, Color.GRAY);
     }
 
 }

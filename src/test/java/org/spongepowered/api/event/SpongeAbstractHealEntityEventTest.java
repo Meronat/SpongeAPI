@@ -24,13 +24,14 @@
  */
 package org.spongepowered.api.event;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.closeTo;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.Lists;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.EventContext;
@@ -54,11 +55,11 @@ public class SpongeAbstractHealEntityEventTest {
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(),"none"),
                 Lists.newArrayList(), targetEntity, originalDamage);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalDamage, ERROR);
 
-        assertThat(event.getFinalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getBaseHealAmount(), is(closeTo(originalDamage, ERROR)));
+        assertEquals(event.getFinalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getBaseHealAmount(), originalDamage, ERROR);
     }
 
     @Test
@@ -69,16 +70,16 @@ public class SpongeAbstractHealEntityEventTest {
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(),"none"),
                 Lists.newArrayList(), targetEntity, originalDamage);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalDamage, ERROR);
 
         event.setBaseHealAmount(20);
 
-        assertThat(event.getBaseHealAmount(), is(closeTo(20, ERROR)));
-        assertThat(event.getFinalHealAmount(), is(closeTo(20, ERROR)));
+        assertEquals(event.getBaseHealAmount(), 20, ERROR);
+        assertEquals(event.getFinalHealAmount(), 20, ERROR);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalDamage, ERROR);
     }
 
     @Test
@@ -91,31 +92,31 @@ public class SpongeAbstractHealEntityEventTest {
         final int firstModifierDamage = 2;
         final int secondModifierDamage = 15;
 
-        HealthModifier firstModifer = mockParam(HealthModifier.class);
+        HealthModifier firstModifier = mockParam(HealthModifier.class);
         HealthModifier secondModifier = mockParam(HealthModifier.class);
 
         List<HealthFunction>
-                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifer, p -> p * 2), HealthFunction.of(secondModifier, p -> p * 5));
+                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifier, p -> p * 2), HealthFunction.of(secondModifier, p -> p * 5));
 
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), originalFunctions, targetEntity,
                 originalDamage);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalFinalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalFinalDamage, ERROR);
 
         Map<HealthModifier, Double> originalDamages = event.getOriginalHealingAmounts();
 
-        assertThat(originalDamages.size(), is(originalFunctions.size()));
+        assertEquals(originalDamages.size(), originalFunctions.size());
 
-        assertThat(originalDamages.get(firstModifer), is(closeTo(firstModifierDamage, ERROR)));
-        assertThat(originalDamages.get(secondModifier), is(closeTo(secondModifierDamage, ERROR)));
+        assertEquals(originalDamages.get(firstModifier), firstModifierDamage, ERROR);
+        assertEquals(originalDamages.get(secondModifier), secondModifierDamage, ERROR);
 
-        assertThat(event.getOriginalHealingModifierAmount(firstModifer), is(closeTo(firstModifierDamage, ERROR)));
-        assertThat(event.getOriginalHealingModifierAmount(secondModifier), is(closeTo(secondModifierDamage, ERROR)));
+        assertEquals(event.getOriginalHealingModifierAmount(firstModifier), firstModifierDamage, ERROR);
+        assertEquals(event.getOriginalHealingModifierAmount(secondModifier), secondModifierDamage, ERROR);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
     }
 
     @Test
@@ -133,34 +134,34 @@ public class SpongeAbstractHealEntityEventTest {
 
         final int modifiedFinalDamage = 12;
 
-        HealthModifier firstModifer = mockParam(HealthModifier.class);
+        HealthModifier firstModifier = mockParam(HealthModifier.class);
         HealthModifier secondModifier = mockParam(HealthModifier.class);
 
         List<HealthFunction>
-                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifer, p -> p * 2), HealthFunction.of(secondModifier, p -> p * 5));
+                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifier, p -> p * 2), HealthFunction.of(secondModifier, p -> p * 5));
 
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), originalFunctions, targetEntity,
                 originalDamage);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
 
         DoubleUnaryOperator newFunction = p -> p;
 
-        event.setHealAmount(firstModifer, newFunction);
+        event.setHealAmount(firstModifier, newFunction);
 
-        assertThat(event.getHealAmount(firstModifer), is(closeTo(firstChangedDamage, ERROR)));
-        assertThat(event.getHealAmount(secondModifier), is(closeTo(secondChangedDamage, ERROR)));
+        assertEquals(event.getHealAmount(firstModifier), firstChangedDamage, ERROR);
+        assertEquals(event.getHealAmount(secondModifier), secondChangedDamage, ERROR);
 
-        assertThat(event.getOriginalHealingModifierAmount(firstModifer), is(closeTo(firstModifierDamage, ERROR)));
-        assertThat(event.getOriginalHealingModifierAmount(secondModifier), is(closeTo(secondModifierDamage, ERROR)));
+        assertEquals(event.getOriginalHealingModifierAmount(firstModifier), firstModifierDamage, ERROR);
+        assertEquals(event.getOriginalHealingModifierAmount(secondModifier), secondModifierDamage, ERROR);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalFinalDamage, ERROR)));
-        assertThat(event.getFinalHealAmount(), is(closeTo(modifiedFinalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalFinalDamage, ERROR);
+        assertEquals(event.getFinalHealAmount(), modifiedFinalDamage, ERROR);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
 
-        assertThat(event.getModifiers(), is(Matchers.equalTo(Lists.newArrayList(HealthFunction.of(firstModifer, newFunction), originalFunctions.get(1)))));
+        assertIterableEquals(event.getModifiers(), Lists.newArrayList(HealthFunction.of(firstModifier, newFunction), originalFunctions.get(1)));
     }
 
     @Test
@@ -192,55 +193,57 @@ public class SpongeAbstractHealEntityEventTest {
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), originalFunctions, targetEntity,
                 originalDamage);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
 
-        assertThat(event.isModifierApplicable(thirdModifier), is(false));
+        assertFalse(event.isModifierApplicable(thirdModifier));
 
         event.setHealAmount(thirdModifier, thirdFunction);
 
-        assertThat(event.getHealAmount(firstModifer), is(closeTo(firstModifierDamage, ERROR)));
-        assertThat(event.getHealAmount(secondModifier), is(closeTo(secondModifierDamage, ERROR)));
-        assertThat(event.getHealAmount(thirdModifier), is(closeTo(thirdDamage, ERROR)));
+        assertEquals(event.getHealAmount(firstModifer), firstModifierDamage, ERROR);
+        assertEquals(event.getHealAmount(secondModifier), secondModifierDamage, ERROR);
+        assertEquals(event.getHealAmount(thirdModifier), thirdDamage, ERROR);
 
-        assertThat(event.getOriginalHealingModifierAmount(firstModifer), is(closeTo(firstModifierDamage, ERROR)));
-        assertThat(event.getOriginalHealingModifierAmount(secondModifier), is(closeTo(secondModifierDamage, ERROR)));
+        assertEquals(event.getOriginalHealingModifierAmount(firstModifer), firstModifierDamage, ERROR);
+        assertEquals(event.getOriginalHealingModifierAmount(secondModifier), secondModifierDamage, ERROR);
 
-        assertThat(event.getOriginalHealAmount(), is(closeTo(originalDamage, ERROR)));
-        assertThat(event.getOriginalFinalHealAmount(), is(closeTo(originalFinalDamage, ERROR)));
-        assertThat(event.getFinalHealAmount(), is(closeTo(modifiedFinalDamage, ERROR)));
+        assertEquals(event.getOriginalHealAmount(), originalDamage, ERROR);
+        assertEquals(event.getOriginalFinalHealAmount(), originalFinalDamage, ERROR);
+        assertEquals(event.getFinalHealAmount(), modifiedFinalDamage, ERROR);
 
-        assertThat(event.getOriginalFunctions(), is(Matchers.equalTo(originalFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), originalFunctions);
 
-        assertThat(event.getModifiers(), is(Matchers.equalTo(newFunctions)));
+        assertIterableEquals(event.getOriginalFunctions(), newFunctions);
     }
 
     @Test
     public void testModifiersApplicable() {
         Entity targetEntity = mockParam(Entity.class);
 
-        HealthModifier firstModifer = mockParam(HealthModifier.class);
+        HealthModifier firstModifier = mockParam(HealthModifier.class);
         HealthModifier secondModifier = mockParam(HealthModifier.class);
 
         List<HealthFunction>
-                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifer, p -> p), HealthFunction.of(secondModifier, p -> p));
+                originalFunctions = Lists.newArrayList(HealthFunction.of(firstModifier, p -> p), HealthFunction.of(secondModifier, p -> p));
 
         HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), originalFunctions, targetEntity, 0);
 
-        assertThat(event.isModifierApplicable(firstModifer), is(true));
-        assertThat(event.isModifierApplicable(secondModifier), is(true));
-        assertThat(event.isModifierApplicable(mockParam(HealthModifier.class)), is(false));
+        assertTrue(event.isModifierApplicable(firstModifier));
+        assertTrue(event.isModifierApplicable(secondModifier));
+        assertFalse(event.isModifierApplicable(mockParam(HealthModifier.class)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNotApplicableModifer() {
-        HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), Lists.newArrayList(),
-                mockParam(Entity.class), 0);
+        assertThrows(IllegalArgumentException.class, () -> {
+            HealEntityEvent event = SpongeEventFactory.createHealEntityEvent(Cause.of(EventContext.empty(), "none"), Lists.newArrayList(),
+                    mockParam(Entity.class), 0);
 
-        HealthModifier modifier = mockParam(HealthModifier.class);
+            HealthModifier modifier = mockParam(HealthModifier.class);
 
-        assertThat(event.isModifierApplicable(modifier), is(false));
+            assertFalse(event.isModifierApplicable(modifier));
 
-        event.getOriginalHealingModifierAmount(modifier);
+            event.getOriginalHealingModifierAmount(modifier);
+        });
     }
 
     @SuppressWarnings("unchecked")

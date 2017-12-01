@@ -27,9 +27,9 @@ package org.spongepowered.api.entity;
 import com.flowpowered.math.imaginary.Quaterniond;
 import com.flowpowered.math.matrix.Matrix4d;
 import com.flowpowered.math.vector.Vector3d;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.extent.Extent;
@@ -40,7 +40,7 @@ public class TransformTest {
     private Extent mockExtent1;
     private Extent mockExtent2;
 
-    @Before
+    @BeforeEach
     public void generateMockExtent() {
         this.mockExtent1 = Mockito.when(Mockito.mock(Extent.class).isLoaded()).thenReturn(false).getMock();
         this.mockExtent2 = Mockito.when(Mockito.mock(Extent.class).isLoaded()).thenReturn(true).getMock();
@@ -52,15 +52,15 @@ public class TransformTest {
         final Vector3d position2 = new Vector3d(4, 5, 6);
 
         Transform<Extent> transform = new Transform<>(this.mockExtent1, position1);
-        Assert.assertEquals(this.mockExtent1, transform.getExtent());
+        Assertions.assertEquals(this.mockExtent1, transform.getExtent());
         assertEquals(position1, transform.getPosition());
 
         transform = transform.setLocation(new Location<>(this.mockExtent2, position2));
-        Assert.assertEquals(this.mockExtent2, transform.getExtent());
+        Assertions.assertEquals(this.mockExtent2, transform.getExtent());
         assertEquals(position2, transform.getPosition());
 
         transform = transform.setExtent(this.mockExtent1);
-        Assert.assertEquals(this.mockExtent1, transform.getExtent());
+        Assertions.assertEquals(this.mockExtent1, transform.getExtent());
 
         transform = transform.setPosition(position1);
         assertEquals(position1, transform.getPosition());
@@ -82,9 +82,9 @@ public class TransformTest {
         Transform<Extent> transform = new Transform<>(this.mockExtent1, Vector3d.ZERO, rotation1);
         assertEquals(rotation1, transform.getRotation());
         assertEquals(rotationQuat1, transform.getRotationAsQuaternion());
-        Assert.assertEquals(rotation1.getX(), transform.getPitch(), EPSILON);
-        Assert.assertEquals(rotation1.getY(), transform.getYaw(), EPSILON);
-        Assert.assertEquals(rotation1.getZ(), transform.getRoll(), EPSILON);
+        Assertions.assertEquals(rotation1.getX(), transform.getPitch(), EPSILON);
+        Assertions.assertEquals(rotation1.getY(), transform.getYaw(), EPSILON);
+        Assertions.assertEquals(rotation1.getZ(), transform.getRoll(), EPSILON);
 
         transform = transform.addRotation(rotation2);
         assertEquals(rotationQuat1Plus2, transform.getRotationAsQuaternion());
@@ -106,12 +106,12 @@ public class TransformTest {
     @Test
     public void testValid() {
         Transform<Extent> transform = new Transform<>(this.mockExtent1);
-        Assert.assertFalse(transform.isValid());
+        Assertions.assertFalse(transform.isValid());
         transform = transform.setExtent(this.mockExtent2);
-        Assert.assertTrue(transform.isValid());
+        Assertions.assertTrue(transform.isValid());
 
-        Assert.assertFalse(new Transform<>(this.mockExtent1).isValid());
-        Assert.assertTrue(new Transform<>(this.mockExtent2).isValid());
+        Assertions.assertFalse(new Transform<>(this.mockExtent1).isValid());
+        Assertions.assertTrue(new Transform<>(this.mockExtent2).isValid());
     }
 
     @Test
@@ -153,34 +153,34 @@ public class TransformTest {
     }
 
     private void assertEquals(Vector3d expected, Vector3d actual) {
-        Assert.assertEquals(expected.getX(), actual.getX(), EPSILON);
-        Assert.assertEquals(expected.getY(), actual.getY(), EPSILON);
-        Assert.assertEquals(expected.getZ(), actual.getZ(), EPSILON);
+        Assertions.assertEquals(expected.getX(), actual.getX(), EPSILON);
+        Assertions.assertEquals(expected.getY(), actual.getY(), EPSILON);
+        Assertions.assertEquals(expected.getZ(), actual.getZ(), EPSILON);
     }
 
     private void assertEquals(Quaterniond expected, Quaterniond actual) {
         // This works because we're only dealing with unit quaternions
         // See: https://gamedev.stackexchange.com/questions/75072/how-can-i-compare-two-quaternions-for-logical-equality
-        Assert.assertEquals(1, Math.abs(expected.dot(actual)), EPSILON);
+        Assertions.assertEquals(1, Math.abs(expected.dot(actual)), EPSILON);
     }
 
     private void assertEquals(Matrix4d expected, Matrix4d actual) {
-        Assert.assertEquals(expected.get(0, 0), actual.get(0, 0), EPSILON);
-        Assert.assertEquals(expected.get(0, 1), actual.get(0, 1), EPSILON);
-        Assert.assertEquals(expected.get(0, 2), actual.get(0, 2), EPSILON);
-        Assert.assertEquals(expected.get(0, 3), actual.get(0, 3), EPSILON);
-        Assert.assertEquals(expected.get(1, 0), actual.get(1, 0), EPSILON);
-        Assert.assertEquals(expected.get(1, 1), actual.get(1, 1), EPSILON);
-        Assert.assertEquals(expected.get(1, 2), actual.get(1, 2), EPSILON);
-        Assert.assertEquals(expected.get(1, 3), actual.get(1, 3), EPSILON);
-        Assert.assertEquals(expected.get(2, 0), actual.get(2, 0), EPSILON);
-        Assert.assertEquals(expected.get(2, 1), actual.get(2, 1), EPSILON);
-        Assert.assertEquals(expected.get(2, 2), actual.get(2, 2), EPSILON);
-        Assert.assertEquals(expected.get(2, 3), actual.get(2, 3), EPSILON);
-        Assert.assertEquals(expected.get(3, 0), actual.get(3, 0), EPSILON);
-        Assert.assertEquals(expected.get(3, 1), actual.get(3, 1), EPSILON);
-        Assert.assertEquals(expected.get(3, 2), actual.get(3, 2), EPSILON);
-        Assert.assertEquals(expected.get(3, 3), actual.get(3, 3), EPSILON);
+        Assertions.assertEquals(expected.get(0, 0), actual.get(0, 0), EPSILON);
+        Assertions.assertEquals(expected.get(0, 1), actual.get(0, 1), EPSILON);
+        Assertions.assertEquals(expected.get(0, 2), actual.get(0, 2), EPSILON);
+        Assertions.assertEquals(expected.get(0, 3), actual.get(0, 3), EPSILON);
+        Assertions.assertEquals(expected.get(1, 0), actual.get(1, 0), EPSILON);
+        Assertions.assertEquals(expected.get(1, 1), actual.get(1, 1), EPSILON);
+        Assertions.assertEquals(expected.get(1, 2), actual.get(1, 2), EPSILON);
+        Assertions.assertEquals(expected.get(1, 3), actual.get(1, 3), EPSILON);
+        Assertions.assertEquals(expected.get(2, 0), actual.get(2, 0), EPSILON);
+        Assertions.assertEquals(expected.get(2, 1), actual.get(2, 1), EPSILON);
+        Assertions.assertEquals(expected.get(2, 2), actual.get(2, 2), EPSILON);
+        Assertions.assertEquals(expected.get(2, 3), actual.get(2, 3), EPSILON);
+        Assertions.assertEquals(expected.get(3, 0), actual.get(3, 0), EPSILON);
+        Assertions.assertEquals(expected.get(3, 1), actual.get(3, 1), EPSILON);
+        Assertions.assertEquals(expected.get(3, 2), actual.get(3, 2), EPSILON);
+        Assertions.assertEquals(expected.get(3, 3), actual.get(3, 3), EPSILON);
     }
 
 }

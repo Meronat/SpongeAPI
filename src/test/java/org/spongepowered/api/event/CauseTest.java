@@ -24,13 +24,16 @@
  */
 package org.spongepowered.api.event;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.EventContext;
 
@@ -44,69 +47,71 @@ public class CauseTest {
         Cause.builder().append("foo").build(EventContext.empty());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test()
     public void testNullCause() {
-        Cause.builder().append(null);
+        assertThrows(NullPointerException.class, () -> Cause.builder().append(null));
     }
 
     @Test
     public void testWithCause() {
         final Cause old = Cause.of(EventContext.empty(), "foo");
         final Cause newCause = old.with("bar");
-        assertThat(old, not(newCause));
+        assertNotSame(old, newCause);
         List<?> list = newCause.all();
-        assertThat(list.contains("foo"), is(true));
-        assertThat(list.contains("bar"), is(true));
+        assertTrue(list.contains("foo"));
+        assertTrue(list.contains("bar"));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test()
     public void testWithNullCause() {
-        final Cause old = Cause.of(EventContext.empty(), "foo");
-        old.with((Object) null);
+        assertThrows(NullPointerException.class, () -> {
+            final Cause old = Cause.of(EventContext.empty(), "foo");
+            old.with((Object) null);
+        });
     }
 
     @Test
     public void testToString() {
         final Cause cause = Cause.builder().append("foo").append("bar").append(1).append(2).build(EventContext.empty());
         final String causeString = cause.toString();
-        assertThat(causeString.isEmpty(), is(false));
+        assertFalse(causeString.isEmpty());
     }
 
     @Test
     public void testBefore() {
         final Cause cause = Cause.builder().append("foo").append(1).append(2).build(EventContext.empty());
         final Optional<?> optional = cause.before(Integer.class);
-        assertThat(optional.isPresent(), is(true));
-        assertThat(optional.get(), is("foo"));
+        assertTrue(optional.isPresent());
+        assertEquals(optional.get(), "foo");
     }
 
     @Test
     public void testAfter() {
         final Cause cause = Cause.builder().append("foo").append(1).append(2).build(EventContext.empty());
         final Optional<?> optional = cause.after(Integer.class);
-        assertThat(optional.isPresent(), is(true));
-        assertThat(optional.get(), is(2));
+        assertTrue(optional.isPresent());
+        assertSame(optional.get(), 2);
     }
 
     @Test
     public void testNoneAfter() {
         final Cause cause = Cause.builder().append("foo").append(1).build(EventContext.empty());
         final Optional<?> optional = cause.after(Integer.class);
-        assertThat(optional.isPresent(), is(false));
+        assertFalse(optional.isPresent());
     }
 
     @Test
     public void testNoneBefore() {
         final Cause cause = Cause.builder().append("foo").append(1).build(EventContext.empty());
         final Optional<?> optional = cause.before(String.class);
-        assertThat(optional.isPresent(), is(false));
+        assertFalse(optional.isPresent());
     }
 
     @Test
     public void testNoneOf() {
         final Cause cause = Cause.builder().append("foo").append(1).append(2).append(3).build(EventContext.empty());
-        assertThat(cause.noneOf(Integer.class), hasSize(1));
-        assertThat(cause.noneOf(Integer.class).get(0), is("foo"));
+        assertTrue(cause.noneOf(Integer.class).size() == 1);
+        assertEquals(cause.noneOf(Integer.class).get(0), "foo");
     }
 
     @Test
@@ -114,8 +119,8 @@ public class CauseTest {
         final List<String> fooList = ImmutableList.of("foo", "bar", "baz", "floof");
         final Cause cause = Cause.builder().append("foo").append("bar").append("baz").append("floof").build(EventContext.empty());
         final List<String> stringList = cause.allOf(String.class);
-        assertThat(stringList.isEmpty(), is(false));
-        assertThat(stringList.equals(fooList), is(true));
+        assertFalse(stringList.isEmpty());
+        assertIterableEquals(stringList, fooList);
     }
 
 

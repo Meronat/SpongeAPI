@@ -24,14 +24,14 @@
  */
 package org.spongepowered.api.command;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.dispatcher.SimpleDispatcher;
@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ChildCommandsTest {
 
-    @Before
+    @BeforeEach
     public void initialize() throws Exception {
         TestPlainTextSerializer.inject();
         
@@ -69,12 +69,9 @@ public class ChildCommandsTest {
         final AtomicBoolean childExecuted = new AtomicBoolean();
         final CommandSpec spec = CommandSpec.builder()
                 .children(ImmutableMap.<List<String>, CommandSpec>of(ImmutableList.of("child"), CommandSpec.builder()
-                        .executor(new CommandExecutor() {
-                            @Override
-                            public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-                                childExecuted.set(true);
-                                return CommandResult.builder().successCount(1).build();
-                            }
+                        .executor((src, args) -> {
+                            childExecuted.set(true);
+                            return CommandResult.builder().successCount(1).build();
                         })
                         .build()))
                         .build();

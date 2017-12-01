@@ -24,15 +24,13 @@
  */
 package org.spongepowered.api.text;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.spongepowered.api.text.action.TextActions.insertText;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyle;
@@ -41,7 +39,7 @@ import org.spongepowered.api.util.test.TestHooks;
 
 public class TextTest {
 
-    @Before
+    @BeforeEach
     public void initialize() throws Exception {
         TestPlainTextSerializer.inject();
         TestHooks.mockFields(TextColors.class, TextColor.class);
@@ -51,53 +49,53 @@ public class TextTest {
     @Test
     public void testTextOf() {
         Text text = Text.of(TextColors.RED, "Red");
-        assertThat(text.toPlain(), is("Red"));
+        assertEquals(text.toPlain(), "Red");
 
         text = findText(text, "Red");
-        assertThat(text.getColor(), is(TextColors.RED));
+        assertEquals(text.getColor(), TextColors.RED);
         assertTrue(text.getStyle().isEmpty());
-        assertThat(text.getChildren(), empty());
+        assertTrue(text.getChildren().isEmpty());
     }
 
     @Test
     public void testNestedTextOf() {
         Text text = Text.of(TextColors.RED, "Red", TextColors.YELLOW, "Yellow");
-        assertThat(text.toPlain(), is("RedYellow"));
+        assertEquals(text.toPlain(), "RedYellow");
 
         Text red = findText(text, "Red");
-        assertThat(red.toPlain(), is("Red"));
-        assertThat(red.getColor(), is(TextColors.RED));
+        assertEquals(red.toPlain(), "Red");
+        assertEquals(red.getColor(), TextColors.RED);
 
         Text yellow = findText(text, "Yellow");
-        assertThat(yellow.toPlain(), is("Yellow"));
-        assertThat(yellow.getColor(), is(TextColors.YELLOW));
+        assertEquals(yellow.toPlain(), "Yellow");
+        assertEquals(yellow.getColor(), TextColors.YELLOW);
     }
 
     @Test
     public void testSimpleCompositeText() {
         Text text = Text.of(TextColors.YELLOW, Text.of("White"));
-        assertThat(text.toPlain(), is("White"));
+        assertEquals(text.toPlain(), "White");
 
         text = findText(text, "White");
-        assertThat(text.getColor(), is(TextColors.YELLOW));
+        assertEquals(text.getColor(), TextColors.WHITE);
     }
 
     @Test
     public void testCompositeText() {
         Text text = Text.of(TextColors.GREEN, insertText("Welcome Spongie!"), "Welcome ", Text.of(TextColors.YELLOW, "Spongie"), " to the server!");
-        assertThat(text.toPlain(), is("Welcome Spongie to the server!"));
+        assertEquals(text.toPlain(), "Welcome Spongie to the server!");
 
         Text welcome = findText(text, "Welcome");
-        assertThat(welcome.getColor(), is(TextColors.GREEN));
-        assertThat(welcome.getShiftClickAction().get(), is(insertText("Welcome Spongie!")));
+        assertEquals(welcome.getColor(), TextColors.GREEN);
+        assertEquals(welcome.getShiftClickAction().get(), insertText("Welcome Spongie!"));
 
         Text spongie = findText(text, "Spongie");
-        assertThat(spongie.getColor(), is(TextColors.YELLOW));
-        assertThat(spongie.getShiftClickAction().get(), is(insertText("Welcome Spongie!")));
+        assertEquals(spongie.getColor(), TextColors.YELLOW);
+        assertEquals(spongie.getShiftClickAction().get(), insertText("Welcome Spongie!"));
 
         Text server = findText(text, "server");
-        assertThat(server.getColor(), is(TextColors.GREEN));
-        assertThat(server.getShiftClickAction().get(), is(insertText("Welcome Spongie!")));
+        assertEquals(server.getColor(), TextColors.GREEN);
+        assertEquals(server.getShiftClickAction().get(), insertText("Welcome Spongie!"));
     }
 
     private static Text findText(Text root, String text) {
@@ -107,7 +105,7 @@ public class TextTest {
             }
         }
 
-        fail("No text with content '" + text + "' found");
+        Assertions.fail("No text with content '" + text + "' found");
         throw new AssertionError(); // Should never happen
     }
 

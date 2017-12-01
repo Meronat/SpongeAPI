@@ -24,15 +24,13 @@
  */
 package org.spongepowered.api.command;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.dispatcher.SimpleDispatcher;
-import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.util.test.TestHooks;
 
@@ -40,8 +38,6 @@ import org.spongepowered.api.util.test.TestHooks;
  * Test for basic commandspec creation.
  */
 public class CommandSpecTest {
-    @Rule
-    public ExpectedException expected = ExpectedException.none();
 
     @Test
     public void testNoArgsFunctional() throws CommandException, NoSuchFieldException, IllegalAccessException {
@@ -49,12 +45,7 @@ public class CommandSpecTest {
         TestHooks.setInstance("commandManager", cm);
 
         CommandSpec cmd = CommandSpec.builder()
-                .executor(new CommandExecutor() {
-                    @Override
-                    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-                        return CommandResult.empty();
-                    }
-                })
+                .executor((src, args) -> CommandResult.empty())
                 .build();
 
         final SimpleDispatcher dispatcher = new SimpleDispatcher();
@@ -64,10 +55,8 @@ public class CommandSpecTest {
 
     @Test
     public void testExecutorRequired() {
-        this.expected.expect(NullPointerException.class);
-        this.expected.expectMessage("An executor is required");
-        CommandSpec.builder()
-                .build();
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> CommandSpec.builder().build());
 
+        assertEquals("An executor is required", exception.getMessage());
     }
 }

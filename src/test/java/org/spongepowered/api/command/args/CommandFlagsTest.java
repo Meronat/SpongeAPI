@@ -24,19 +24,18 @@
  */
 package org.spongepowered.api.command.args;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.spongepowered.api.command.args.GenericArguments.flags;
 import static org.spongepowered.api.command.args.GenericArguments.integer;
 import static org.spongepowered.api.command.args.GenericArguments.none;
 import static org.spongepowered.api.command.args.GenericArguments.string;
 import static org.spongepowered.api.util.SpongeApiTranslationHelper.t;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -46,16 +45,14 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.TestPlainTextSerializer;
 
-
 /**
  * Test for command flags.
  */
 public class CommandFlagsTest {
-    @Rule
-    public final ExpectedException expected = ExpectedException.none();
+
     private static final CommandSource TEST_SOURCE = Mockito.mock(CommandSource.class);
 
-    @Before
+    @BeforeEach
     public void initialize() throws Exception {
         TestPlainTextSerializer.inject();
     }
@@ -103,8 +100,7 @@ public class CommandFlagsTest {
         CommandContext context = parseWithInput(flags, "-h");
         assertTrue(context.hasAny("h"));
 
-        this.expected.expect(ArgumentParseException.class);
-        parseWithInput(flags, "--another");
+        assertThrows(ArgumentParseException.class, () -> parseWithInput(flags, "--another"));
     }
 
     @Test
