@@ -32,6 +32,7 @@ import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.ImmutableDataBuilder;
 import org.spongepowered.api.data.LocatableSnapshot;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.util.generator.dummy.DummyObjectProvider;
 import org.spongepowered.api.world.BlockChangeFlag;
 import org.spongepowered.api.world.Location;
@@ -140,6 +141,14 @@ public interface BlockSnapshot extends LocatableSnapshot<BlockSnapshot> {
      * @return The {@link UUID} if available
      */
     Optional<UUID> getNotifier();
+
+    /**
+     * Gets a snapshot representation of the item this block snapshot will
+     * return when picked, if it has one.
+     *
+     * @return The pick block item of this block snapshot
+     */
+    Optional<ItemStackSnapshot> getPickItem();
 
     /**
      * Creates a new {@link TileEntityArchetype} for use with {@link Schematic}s
